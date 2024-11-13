@@ -9,7 +9,7 @@
     "453.48af1eb8.chunk.js.map": "/ASEdit/static/js/453.48af1eb8.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.0e098e5c.css",
-    "static/js/main.3e118380.js"
+    "ASEdit/static/css/main.0e098e5c.css",
+    "ASEdit/static/js/main.3e118380.js"
   ]
 }
