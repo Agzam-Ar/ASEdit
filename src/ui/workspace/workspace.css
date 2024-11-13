@@ -1,0 +1,63 @@
+
+.workspace {
+    position: fixed;
+    top: calc(var(--toolbar-height) + calc(var(--window-margin) * 2));
+    height: calc(calc(100vh - var(--window-margin)) - calc(var(--toolbar-height) + calc(var(--window-margin) * 3)));
+    width: 100vw;
+    padding: var(--window-margin);
+}
+
+.box {
+/*    box-shadow: 0 0 0 1px red inset;*/
+    animation: border 5s linear infinite;
+}
+
+.box-flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.box-flex-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.boxbody {
+    overflow: hidden;
+    background: var(--content-background);
+    margin: var(--window-margin);
+    width: calc(100% - calc(var(--window-margin) * 2));
+    height: calc(100% - calc(var(--window-margin) * 2));
+    border-radius: var(--border-radius);
+    box-shadow: 0 0 0 1px var(--window-border-color), 0 0 calc(var(--window-margin) * 2) 1px #00000077;
+}
+
+.boxtitle {
+    user-select: none;
+    display: flex;
+    align-items: center;
+    background: var(--window-background);
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    height: 2em;
+    padding-left: 1.5em;
+    color: var(--window-foreground);
+    font-weight: bold;
+    box-shadow: 0 0 0 1px var(--window-border-color), 0 0 5em #00000077;
+}
+
+.hidden-svg {
+    position: fixed;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.hidden-canvas {
+    position: fixed;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.subtitle {
+    color: var(--noaccent-foreground);
+    margin-left: 1em;
+}
