@@ -777,13 +777,16 @@ function drawNode(node, x=0, y=0, arrowsListeners=[]) {
                     DIOCell.createArrow(node, child, undefined, "нет");
                 } else {
                     if(lastChild != null && lastChild.type == 'condition') {
-                        if(lastCallback.dio != undefined) {
-                            DIOCell.createArrow(lastChild.thenTrue[lastChild.thenTrue.length-1], child, [lastCallback.dio.thenTrueOut]);
-                        }
-                        if(lastChild.thenFalse == undefined) {
-                            DIOCell.createArrow(lastChild, child, undefined, "нет");
-                        } else {
-                            DIOCell.createArrow(lastChild.thenFalse[lastChild.thenFalse.length-1], child);
+                        if(lastCallback == null) console.warn("lastCallback is null");
+                        else {
+                            if(lastCallback.dio != undefined) {
+                                DIOCell.createArrow(lastChild.thenTrue[lastChild.thenTrue.length-1], child, [lastCallback.dio.thenTrueOut]);
+                            }
+                            if(lastChild.thenFalse == undefined) {
+                                DIOCell.createArrow(lastChild, child, undefined, "нет");
+                            } else {
+                                DIOCell.createArrow(lastChild.thenFalse[lastChild.thenFalse.length-1], child);
+                            }
                         }
                     } else if(lastChild != null && lastChild.shape == Node.shapeLoopBegin) {
                         DIOCell.createArrow(lastChild.children[lastChild.children.length-1], child);
