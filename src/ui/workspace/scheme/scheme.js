@@ -311,6 +311,7 @@ export default function Scheme() {
             let x2 = (target.x);
             let y2 = (target.y);
 
+            let points = [{x:x1,y:y1}];
             let d = `M${x1} ${y1}`;
             if(f.intersections != undefined) {
                 let delta = Node.margin.y/4;
@@ -323,6 +324,11 @@ export default function Scheme() {
             }
             if(needHead) d += `L ${x2} ${y2}`;
             else d += `L ${target.x} ${target.y}`;
+
+            points.push({x:x2, y:y2});
+
+            DIOCell.createPathArrow(points, needHead);
+
             eArrows.push(<SVGArrow key={`svg-arrow-` + eArrows.length} id={arrowId} d={`${d}`} head={needHead} start={{x:f.x,y:f.y}} end={{x:target.x,y:target.y}}/>);
         }
     }
