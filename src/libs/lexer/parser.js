@@ -9,7 +9,8 @@ class Parser {
 		this.code = "";
 		this.functions = {
 			input: ['scanf', 'readln', 'read'],
-			output: ['printf', 'writeln', "println", 'write']
+			output: ['printf', 'writeln', "println", 'write', "print"],
+			clear: ['cls', 'clear'],
 		};
 		this.loopId = 1;
 	}
@@ -602,6 +603,11 @@ class Parser {
 				let vartype = varribleType;
 				let isPointless = true;
 				varribleType = "";
+				if(token2.type == 'period' || token2.type == 'lambda') {
+					let subname = nextToken();
+					varname += '.' + subname.value;
+					token2  = nextToken();
+				}
 				if(token2.type == 'lbrack') {
 					let rbrack = null;
 					let bracks = [token2];
@@ -665,7 +671,6 @@ class Parser {
 				} else if(token2.type == 'lpar') {
 					// if "(" has data type it means that its declaration of function (some trick: i use "function" keyword as datatype for easy mixing of langs)
 					if(vartype == "" || vartype == " ") { // function call: "function(...)"
-						if(tokenTypeBreaker == 'semi') this.log("semitok func: ", token, parent);
 						currentNode = new Node('function');
 						let args = [];
 						while(true) {
@@ -692,13 +697,15 @@ class Parser {
 						currentNode.args = args;
 	
 						currentNode.name = token.value;
-						// this.log(this.functions.input, token.value);
 						if(this.functions.input.includes(token.value)) {
 							currentNode.shape = Node.shapeData;
 							currentNode.value = "ввод " + currentNode.value;
 						} else if(this.functions.output.includes(token.value)) {
 							currentNode.shape = Node.shapeData;
 							currentNode.value = "вывод " + currentNode.value;
+						} else if(token.value == 'system' && args.length == 1 && this.functions.clear.includes(args[0].value)) {
+							currentNode.shape = Node.shapeData;
+							currentNode.value = "очистить консоль";
 						} else {
 							currentNode.shape = Node.shapeFunction;
 							currentNode.value = `${token.value}(${currentNode.value})`;
@@ -843,6 +850,11 @@ class Parser {
 		// let buffer = "";
 		let needSpace = false;
 		let isFirst = true;
+		const consumeSpace = () => {
+			if(str.charAt(str.length-1) == ' ') {
+				str = str.substring(0, str.length-1);
+			}
+		};
 		for (let t of tokens) {
 			if(mode=='output') {
 				if(isFirst && (t.type == 'string' || t.type == 'comma')) continue;
@@ -874,14 +886,20 @@ class Parser {
 				str += "=";
 				continue;
 			}
+			if(t.type == 'lambda' || t.type == 'period') {
+				consumeSpace();
+				str += ".";
+				needSpace = false;
+				continue;
+			}
 			if(str.charAt(str.length-1) == ' ') {
 				if(t.type != 'equals' && t.type != 'isequals') {
 					if(t.type == 'lbrack' || t.type == 'rbrack' || t.type == 'comma' || t.type == 'rpar') {
-						str = str.substring(0, str.length-1);
+						consumeSpace();
 					}
 				}
 			}
-			if(t.type == 'lbrack' || t.type == 'rbrack' || t.type == 'lpar' || t.type == 'rpar') needSpace = false;
+			if(t.type == 'lbrack' || t.type == 'rbrack' || t.type == 'lpar' || t.type == 'rpar' || t.type == 'lambda') needSpace = false;
 			str += t.value;
 			isFirst = false;
 		}
@@ -905,7 +923,8 @@ class Parser {
 		let start = this.code.lastIndexOf('\n', index-1);
 		let end = this.code.indexOf('\n', index+1);
 		if(end == -1) end = this.code.length;
-		console.log('%c[PARSER-ERROR]', "color: #FF3826; font-style: bold; padding: 2px; background: #333", 
+		// FF6347 FF3826
+		console.log('%c[PARSER-ERROR]', "color: #FF6347; font-style: bold; padding: 2px; background: #333", 
 			text, index == null ? '' : '\n' + this.code.substring(start+1, end));
 	}
 
@@ -918,6 +937,12 @@ class Parser {
 			index: index,
 			endIndex: endIndex,
 		});
+
+		let start = this.code.lastIndexOf('\n', index-1);
+		let end = this.code.indexOf('\n', index+1);
+		if(end == -1) end = this.code.length;
+		console.warn('%c[PARSER-WARN]', "color: #FFBE00; font-style: bold; padding: 2px; background: #333", 
+			text, index == null ? '' : '\n' + this.code.substring(start+1, end));
 	}
 
 }

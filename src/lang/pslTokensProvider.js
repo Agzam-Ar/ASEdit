@@ -16,11 +16,12 @@ export default {
     ],
     functions: [
         "printf", "scanf", "println", 
-        "readln", "writeln", "read", "write",
+        "readln", "writeln", "read", "write", "print",
+        "system",
     ],
     typeKeywords: [
         "unsigned",
-        "int", "double", "long", "float", "char", "boolean",
+        "void", "int", "double", "long", "float", "char", "boolean",
         'begin', 'end', 'then'
     ],
     wrong: [
@@ -28,7 +29,7 @@ export default {
     ],
     operator: [
     ],
-    operators: ['=', '>', '<', '==', '<=', '>=', '!=', '<>', '+', '-', '*', '/'],
+    operators: ['=', '>', '<', '==', '<=', '>=', '!=', '<>', '+', '-', '*', '/', '->'],
     digits: /\d+(_+\d+)*/,
     octaldigits: /[0-7]+(_+[0-7]+)*/,  binarydigits: /[0-1]+(_+[0-1]+)*/,
     hexdigits: /[[0-9a-fA-F]+(_+[0-9a-fA-F]+)*/,

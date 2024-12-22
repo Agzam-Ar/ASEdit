@@ -35,6 +35,7 @@ class Lexer {
 		this.putSymbol(',', 'comma');
 		this.putSymbol('!', 'excl');
 		this.putSymbol('%', 'percnt');
+		this.putSymbol('.', 'period');
 
 		this.putMultiSymbol('&&', 'and');
 		this.putMultiSymbol('||', 'or');
@@ -51,6 +52,7 @@ class Lexer {
 		this.putMultiSymbol('==', 'isequals');
 		this.putMultiSymbol('<<', 'lshiftbits');
 		this.putMultiSymbol('>>', 'rshiftbits');
+		this.putMultiSymbol('->', 'lambda');
 
 
 		this.putKeyword('if', 'if');
@@ -67,6 +69,7 @@ class Lexer {
 		this.putBlock('@loop', '@loop');
 		this.putBlock('@method', '@method');
 
+		this.putTypeKeyword('void', 'void');
 		this.putTypeKeyword('int', 'int');
 		this.putTypeKeyword('double', 'double');
 		this.putTypeKeyword('float', 'float');
